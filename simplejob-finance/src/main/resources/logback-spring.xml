@@ -1,0 +1,69 @@
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+    <springProperty scope="context" name="kafka.broker.servers" source="bootstrap.servers"/>
+    <springProperty scope="context" name="projectname" source="app.id"/>
+
+    <property name="pattern-color" value="%yellow(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight(%-5level) %green(%logger{50}) - %highlight(%msg) %n"/>
+
+    <!-- 控制台输出-带颜色 -->
+    <appender name="CONSOLE-WITH-COLOR" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern-color}</pattern>
+        </encoder>
+    </appender>
+    <!--控制台日志输出-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %red([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %cyan(${LOG_LEVEL_PATTERN:-%p}) ${PID:- } %magenta(${projectname}) [%t] %green([%logger]):%highlight(%m%n)
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="consoleASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>4096</queueSize>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="STDOUT"/>
+    </appender>
+
+    <!--本地日志输出-->
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/${projectname}/logback.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/${projectname}/logback.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1GB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <ImmediateFlush>true</ImmediateFlush>
+            <pattern>
+                [%d{yyyy-MM-dd HH:mm:ss.SSS}] ${LOG_LEVEL_PATTERN:-%p} ${PID:- } ${projectname} [%t] [%logger]:%m%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="rollingFileASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>4096</queueSize>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="rollingFile"/>
+    </appender>
+
+
+    <logger name="com.simple.job.finance.mapper" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="consoleASYNC"/>
+        <appender-ref ref="rollingFileASYNC"/>
+    </root>
+
+</configuration>
+
