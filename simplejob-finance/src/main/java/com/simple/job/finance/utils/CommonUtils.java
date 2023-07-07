@@ -1,5 +1,8 @@
 package com.simple.job.finance.utils;
 
+/**
+ * 工具类
+ */
 public class CommonUtils {
 
     public static final String URL = "http://api.tushare.pro";
