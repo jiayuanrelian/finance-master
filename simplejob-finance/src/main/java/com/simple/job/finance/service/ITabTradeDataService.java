@@ -14,7 +14,7 @@ import java.util.List;
  * @author finance
  * @since 2023-06-17
  */
-public interface ITabTradeDateService extends IService<TabTradeDate> {
+public interface ITabTradeDataService extends IService<TabTradeDate> {
 
     void stockBasic(String trandName);
 

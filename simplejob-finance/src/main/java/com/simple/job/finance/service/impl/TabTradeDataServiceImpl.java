@@ -13,7 +13,7 @@ import com.simple.job.finance.mapper.TabTradeDateMapper;
 import com.simple.job.finance.request.DataModelReq;
 import com.simple.job.finance.request.ModelReq;
 import com.simple.job.finance.request.ModelResp;
-import com.simple.job.finance.service.ITabTradeDateService;
+import com.simple.job.finance.service.ITabTradeDataService;
 import com.simple.job.finance.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class TabTradeDateServiceImpl extends ServiceImpl<TabTradeDateMapper, TabTradeDate> implements ITabTradeDateService {
+public class TabTradeDataServiceImpl extends ServiceImpl<TabTradeDateMapper, TabTradeDate> implements ITabTradeDataService {
 
     @Resource
     private TabSharesDataMapper tabSharesDataMapper;

@@ -67,7 +67,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>8.0.21</scope>
+            <version>5.1.47</version>
         </dependency>
 
         <!-- Http请求-->
@@ -92,6 +92,7 @@
 
     </dependencies>
     <build>
+        <finalName>simplejob-finance</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
