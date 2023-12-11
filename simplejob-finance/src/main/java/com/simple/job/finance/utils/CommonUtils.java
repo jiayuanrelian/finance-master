@@ -17,5 +17,5 @@ public class CommonUtils {
     /**
      * 密匙
      */
-    public static final String TOKEN = "b9d8623c7dbde160e75147e2b47588810dd8dc3033ec8cadc9f64f53";
+    public static final String TOKEN = "dd111a5e35b07336de57e438fe1fb6a54911c09fa9ec322fb5aa9f9f";
 }

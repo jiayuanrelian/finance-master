@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 
+/**
+ * Everyday update the new data
+ */
 @Service
 @Slf4j
 public class FetchSharesListJobDaily implements SimpleJob {
@@ -24,15 +27,9 @@ public class FetchSharesListJobDaily implements SimpleJob {
     public void execute(ShardingContext shardingContext) {
         log.info("FetchSharesListJobDaily start {}", DateUtil.format(new Date(), DatePattern.CHINESE_DATE_TIME_PATTERN));
         try {
-            //当天是不是交易日
-            boolean tradeOrnot = SharesTradeUtils.checkCurrentDayTradeOrnot();
-            if(tradeOrnot){
-                String[] trandNames = TRADE_NAME.split(",");
-                for (int i = 0; i < trandNames.length; i++) {
-                    tabTradeDateService.stockBasic(trandNames[i]);
-                }
-            }else {
-                log.info("FetchSharesListJobDaily 今天非交易日");
+            String[] trandNames = TRADE_NAME.split(",");
+            for (int i = 0; i < trandNames.length; i++) {
+                tabTradeDateService.stockBasic(trandNames[i]);
             }
         }catch (Exception e){
             log.error("FetchSharesListJobDaily has Exception:{}",e);

@@ -23,7 +23,6 @@ import java.util.List;
 
 /**
  * <p>
- * 交易日期 服务实现类
  * </p>
  *
  * @author finance
@@ -69,7 +68,7 @@ public class TabTradeDataServiceImpl extends ServiceImpl<TabTradeDateMapper, Tab
                 }
             }
         }else {
-            log.error("获取信息失败："+ result);
+            log.error("fetch data falil：{}" , result);
         }
     }
 
