@@ -7,5 +7,5 @@ import java.util.List;
 public interface ITradeDateService {
     void tradeDateAction();
 
-    List<TabTradeDate> queryUndoneTask();
+    List<TabTradeDate> queryUndoneTask(String s);
 }

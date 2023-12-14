@@ -53,6 +53,9 @@ public class TabTradeDate implements Serializable {
      */
     private String dealFlag;
 
+
+    private Integer dealFalgFirst;
+
     /**
      * 创建时间
      */

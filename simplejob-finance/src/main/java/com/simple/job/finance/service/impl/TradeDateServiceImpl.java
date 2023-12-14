@@ -14,6 +14,7 @@ import com.simple.job.finance.request.ModelResp;
 import com.simple.job.finance.service.ITradeDateService;
 import com.simple.job.finance.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -68,9 +69,13 @@ public class TradeDateServiceImpl implements ITradeDateService {
     }
 
     @Override
-    public List<TabTradeDate> queryUndoneTask() {
+    public List<TabTradeDate> queryUndoneTask(String dealFlag) {
         QueryWrapper<TabTradeDate> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("deal_flag","0");
+        if(StringUtils.isEmpty(dealFlag)){
+            queryWrapper.eq("deal_flag","0");
+        }else {
+            queryWrapper.eq(dealFlag,"0");
+        }
         queryWrapper.eq("is_open","1");
         queryWrapper.le("creat_time",new Date());
         queryWrapper.orderByAsc("cal_date");
