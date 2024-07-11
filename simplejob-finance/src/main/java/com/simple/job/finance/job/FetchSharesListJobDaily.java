@@ -3,7 +3,6 @@ package com.simple.job.finance.job;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import com.simple.job.finance.service.ITabTradeDataService;
-import com.simple.job.finance.utils.SharesTradeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.api.ShardingContext;
 import org.apache.shardingsphere.elasticjob.simple.job.SimpleJob;
