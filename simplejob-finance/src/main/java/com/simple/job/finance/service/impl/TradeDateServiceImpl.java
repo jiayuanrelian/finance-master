@@ -29,7 +29,7 @@ public class TradeDateServiceImpl implements ITradeDateService {
     private TabTradeDateMapper tradeDateMapper;
     @Override
     public void tradeDateAction() {
-        String tradeDateStart = DateUtil.format(DateUtil.offsetDay(new Date(),-20), DatePattern.PURE_DATE_PATTERN);
+        String tradeDateStart = DateUtil.format(DateUtil.offsetDay(new Date(),-30), DatePattern.PURE_DATE_PATTERN);
         String tradeDateEnd = DateUtil.format(DateUtil.offsetDay(new Date(),5), DatePattern.PURE_DATE_PATTERN);
         DataModelReq dataModelReq = new DataModelReq();
         dataModelReq.setExchange("SSE");
@@ -59,6 +59,12 @@ public class TradeDateServiceImpl implements ITradeDateService {
                     tabTradeDateAdd.setIsOpen(Integer.parseInt(item[2]));
                     tabTradeDateAdd.setCreatTime(DateUtil.offsetHour(DateUtil.parse(item[1],DatePattern.PURE_DATE_PATTERN),18));
                     tabTradeDateAdd.setModyfiTime(tabTradeDateAdd.getCreatTime());
+                    tabTradeDateAdd.setWeekInfo((DateUtil.dayOfWeekEnum(DateUtil.parse(item[1],DatePattern.PURE_DATE_PATTERN)).getValue()-1)+"");
+                    if(tabTradeDateAdd.getWeekInfo().equals("5")){
+                        tabTradeDateAdd.setWeekDealFlag("0");
+                    }else {
+                        tabTradeDateAdd.setWeekDealFlag("1");
+                    }
                     tradeDateMapper.insert(tabTradeDateAdd);
                     log.debug(JSON.toJSONString(tabTradeDateAdd));
                 }
@@ -77,6 +83,16 @@ public class TradeDateServiceImpl implements ITradeDateService {
             queryWrapper.eq(dealFlag,"0");
         }
         queryWrapper.eq("is_open","1");
+        queryWrapper.le("creat_time",new Date());
+        queryWrapper.orderByAsc("cal_date");
+        List<TabTradeDate> tabSharesData = tradeDateMapper.selectList(queryWrapper);
+        return tabSharesData;
+    }
+
+    @Override
+    public List<TabTradeDate> queryWeekDealFlagTask() {
+        QueryWrapper<TabTradeDate> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("week_deal_flag","0");
         queryWrapper.le("creat_time",new Date());
         queryWrapper.orderByAsc("cal_date");
         List<TabTradeDate> tabSharesData = tradeDateMapper.selectList(queryWrapper);

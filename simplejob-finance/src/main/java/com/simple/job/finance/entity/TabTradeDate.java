@@ -54,6 +54,12 @@ public class TabTradeDate implements Serializable {
     private String dealFlag;
 
 
+    private String weekInfo;
+
+    //(1：不需要处理，0：未处理，2：已处理)
+    private String weekDealFlag;
+
+
     private Integer dealFalgFirst;
 
     /**

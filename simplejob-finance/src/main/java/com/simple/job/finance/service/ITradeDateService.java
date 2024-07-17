@@ -8,4 +8,6 @@ public interface ITradeDateService {
     void tradeDateAction();
 
     List<TabTradeDate> queryUndoneTask(String s);
+
+    List<TabTradeDate> queryWeekDealFlagTask();
 }
