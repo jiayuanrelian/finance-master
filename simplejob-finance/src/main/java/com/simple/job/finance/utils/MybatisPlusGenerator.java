@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
 import java.util.Collections;
 
+/**
+ * 数据库
+ */
 public class MybatisPlusGenerator {
     public static void main(String[] args) {
         FastAutoGenerator.create("jdbc:mysql://43.143.43.224:3306/finance_db?useUnicode=true&useSSL=false&characterEncoding=utf8", "root", "WsSHymj9Ak@7")

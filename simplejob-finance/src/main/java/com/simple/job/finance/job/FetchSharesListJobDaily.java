@@ -1,6 +1,8 @@
 package com.simple.job.finance.job;
 
-import com.simple.job.finance.service.ITabTradeDateService;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
+import com.simple.job.finance.service.ITabTradeDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.api.ShardingContext;
 import org.apache.shardingsphere.elasticjob.simple.job.SimpleJob;
@@ -9,21 +11,29 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 
+/**
+ * Everyday update the new data
+ */
 @Service
 @Slf4j
 public class FetchSharesListJobDaily implements SimpleJob {
 
     private String TRADE_NAME = "SSE,SZSE";
     @Resource
-    private ITabTradeDateService tabTradeDateService;
+    private ITabTradeDataService tabTradeDateService;
 
     @Override
     public void execute(ShardingContext shardingContext) {
-//        log.info("Hello World MySimpleJob" + new Date());
-//        String[] trandNames = TRADE_NAME.split(",");
-//        for (int i = 0; i < trandNames.length; i++) {
-//            tabTradeDateService.stockBasic(trandNames[i]);
-//        }
-//        System.out.println("Hello World MySimpleJob" + new Date());
+        log.info("FetchSharesListJobDaily start {}", DateUtil.format(new Date(), DatePattern.CHINESE_DATE_TIME_PATTERN));
+        try {
+            String[] trandNames = TRADE_NAME.split(",");
+            for (int i = 0; i < trandNames.length; i++) {
+                tabTradeDateService.stockBasic(trandNames[i]);
+            }
+        }catch (Exception e){
+            log.error("FetchSharesListJobDaily has Exception:{}",e);
+        }
+        log.info("FetchSharesListJobDaily end {}",DateUtil.format(new Date(), DatePattern.CHINESE_DATE_TIME_PATTERN));
+
     }
 }

@@ -1,11 +1,12 @@
 package com.simple.job.finance.entity;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -52,15 +53,24 @@ public class TabTradeDate implements Serializable {
      */
     private String dealFlag;
 
+
+    private String weekInfo;
+
+    //(1：不需要处理，0：未处理，2：已处理)
+    private String weekDealFlag;
+
+
+    private Integer dealFalgFirst;
+
     /**
      * 创建时间
      */
-    private LocalDateTime creatTime;
+    private Date creatTime;
 
     /**
      * 修改时间
      */
-    private LocalDateTime modyfiTime;
+    private Date modyfiTime;
 
 
 }

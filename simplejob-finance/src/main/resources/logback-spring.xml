@@ -1,9 +1,7 @@
 <configuration scan="true" scanPeriod="10 seconds" debug="false">
     <springProperty scope="context" name="kafka.broker.servers" source="bootstrap.servers"/>
-    <springProperty scope="context" name="projectname" source="app.id"/>
-
     <property name="pattern-color" value="%yellow(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight(%-5level) %green(%logger{50}) - %highlight(%msg) %n"/>
-
+    <property name="projectname" value="simplejob-finance"/>
     <!-- 控制台输出-带颜色 -->
     <appender name="CONSOLE-WITH-COLOR" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

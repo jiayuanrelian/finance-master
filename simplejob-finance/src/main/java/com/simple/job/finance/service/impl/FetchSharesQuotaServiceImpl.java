@@ -1,13 +1,13 @@
 package com.simple.job.finance.service.impl;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.simple.job.finance.entity.TabSharesQuota;
+import com.simple.job.finance.entity.TabTradeDate;
 import com.simple.job.finance.mapper.TabSharesQuotaMapper;
+import com.simple.job.finance.mapper.TabTradeDateMapper;
 import com.simple.job.finance.request.DataModelReq;
 import com.simple.job.finance.request.ModelReq;
 import com.simple.job.finance.request.ModelResp;
@@ -28,15 +28,16 @@ public class FetchSharesQuotaServiceImpl implements IFetchSharesQuotaService {
     @Resource
     private TabSharesQuotaMapper tabSharesQuotaMapper;
 
+    @Resource
+    private TabTradeDateMapper tradeDateMapper;
+
     @Override
-    public void fetchSharesQuota(String tsCode) {
+    public void fetchSharesQuota(TabTradeDate tabTradeDate) {
         //查询每个股票的指标
-        String tradeDate = DateUtil.format(DateUtil.offsetDay(new Date(),-1), DatePattern.PURE_DATE_PATTERN);
+        String tradeDate = tabTradeDate.getCalDate();
         DataModelReq dataModelReq = new DataModelReq();
-        dataModelReq.setTs_code(tsCode);
         dataModelReq.setTrade_date(tradeDate);
-        dataModelReq.setStart_date(tradeDate);
-        dataModelReq.setEnd_date(tradeDate);
+
 
         ModelReq modelReq = new ModelReq();
         modelReq.setToken(CommonUtils.TOKEN);
@@ -50,7 +51,7 @@ public class FetchSharesQuotaServiceImpl implements IFetchSharesQuotaService {
             for (int i = 0; i < items.size(); i++) {
                 String[] item =  items.get(i);
                 QueryWrapper<TabSharesQuota> queryWrapper = new QueryWrapper<>();
-                queryWrapper.eq("ts_code",item[1]);
+                queryWrapper.eq("ts_code",item[0]);
                 queryWrapper.eq("trade_date",tradeDate);
                 TabSharesQuota tabSharesQuotaExit = tabSharesQuotaMapper.selectOne(queryWrapper);
                 if(null == tabSharesQuotaExit){
@@ -92,8 +93,14 @@ public class FetchSharesQuotaServiceImpl implements IFetchSharesQuotaService {
                     tabSharesQuota.setBollLower(Float.parseFloat(StringUtils.isEmpty(item[33])?"0":item[33]));
                     tabSharesQuota.setCci(Float.parseFloat(StringUtils.isEmpty(item[34])?"0":item[34]));
                     tabSharesQuotaMapper.insert(tabSharesQuota);
+                }else {
+                    log.info("fetch data fail");
                 }
             }
+            // update done task
+            tabTradeDate.setDealFlag("1");
+            tabTradeDate.setModyfiTime(new Date());
+            tradeDateMapper.updateById(tabTradeDate);
         }else {
             log.error("获取信息失败："+ result);
         }
